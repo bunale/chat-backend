@@ -6,6 +6,14 @@ spring:
     username: ENC(bxWQK6EA4PWwBBxCMrLExYGwb/PC1vOw)
     password: ENC(3wrG4+mPar/lM05X24NoB+FVBVwC9t5wabC1Qdj/FZg=)
     driver-class-name: org.postgresql.Driver
+  # redis configuration
+  data:
+    redis:
+      database: 0
+      host: ENC(4YbaQDW2nC+iaJklNG/DcwjQ3FZHk0Uf2hD9Rygd9HM=)
+      port: 6379
+      password: ENC(3wrG4+mPar/lM05X24NoB+FVBVwC9t5wabC1Qdj/FZg=)
+      timeout: 10000
 
 # mybatis mapper xml
 mybatis-flex:

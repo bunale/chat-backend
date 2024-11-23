@@ -85,6 +85,19 @@
             <version>3.0.5</version>
         </dependency>
 
+        <!-- redis -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <version>3.25.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-common</artifactId>
+            <version>4.1.115.Final</version>
+        </dependency>
+
+
         <!-- 工具 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
