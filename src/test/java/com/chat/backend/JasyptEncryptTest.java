@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
- * @author ：liujie
+ * @author ：bunale
  * @since ：Created in 2024/11/17 1:10
  */
 @SpringBootTest
