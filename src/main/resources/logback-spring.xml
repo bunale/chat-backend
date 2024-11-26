@@ -23,7 +23,8 @@
         <appender-ref ref="FILE" />
     </root>
 
-    <logger name="com.example" level="debug" additivity="false">
+    <!-- Spring Security 日志配置 -->
+    <logger name="org.springframework.security" level="trace" additivity="false">
         <appender-ref ref="STDOUT" />
     </logger>
 </configuration>

@@ -26,3 +26,9 @@ jasypt:
     property:
       prefix: ENC(
       suffix: )
+
+logging:
+  level:
+    org:
+      springframework:
+        security=TRACE: TRACE

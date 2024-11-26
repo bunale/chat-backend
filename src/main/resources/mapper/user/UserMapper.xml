@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chat.backend.user.mapper.UserMapper">
+<mapper namespace="com.chat.backend.module.user.mapper.UserMapper">
 
-    <select id="findAll" resultType="com.chat.backend.user.entity.User">
+    <select id="findAll" resultType="com.chat.backend.module.user.domain.entity.UserDO">
         SELECT * FROM chat_user
     </select>
 
-    <select id="findById" parameterType="long" resultType="com.chat.backend.user.entity.User">
+    <select id="findById" parameterType="long" resultType="com.chat.backend.module.user.domain.entity.UserDO">
         SELECT * FROM chat_user WHERE id = #{id}
     </select>
 

@@ -4,7 +4,7 @@ import com.chat.backend.exception.ErrorCode;
 import lombok.Getter;
 
 /**
- * @author ：liujie
+ * @author ：bunale
  * @since ：Created in 2024/11/17 11:29
  */
 @Getter

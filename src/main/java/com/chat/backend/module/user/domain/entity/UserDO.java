@@ -1,4 +1,4 @@
-package com.chat.backend.user.entity;
+package com.chat.backend.module.user.domain.entity;
 
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
@@ -8,12 +8,12 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * @author ：liujie
+ * @author ：bunale
  * @since ：Created in 2024/11/16 17:48
  */
 @Data
 @Table("chat_user")
-public class User {
+public class UserDO {
 
     /**
      * 主键ID

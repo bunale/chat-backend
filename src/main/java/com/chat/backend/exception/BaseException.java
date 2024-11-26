@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @author ：liujie
+ * @author ：bunale
  * @since ：Created in 2024/11/17 11:18
  */
 @Data
@@ -17,5 +17,11 @@ public class BaseException extends RuntimeException {
         super(message);
         this.code = code;
         this.message = message;
+    }
+
+    public BaseException(ErrorCode code) {
+        super(code.getMessage());
+        this.code = code;
+        this.message = code.getMessage();
     }
 }

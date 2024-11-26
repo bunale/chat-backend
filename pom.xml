@@ -40,6 +40,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
 
         <!-- 该依赖是从 spring-boot-starter-test 传递而来，由于存在漏洞，因此需要单独引入无漏洞的版本 -->
         <dependency>
