@@ -36,10 +36,29 @@ public enum ErrorCode {
      */
     USER_LOGIN_ERROR("A0200", "User login error"),
     /**
+     * 二级宏观错误码，用户名或密码错误
+     */
+    USERNAME_OR_PASSWORD_ERROR("A0200", "Username or password error"),
+    /**
      * 二级宏观错误码，参数错误
      */
     PARAMETER_ERROR("A0300", "Parameter error"),
-
+    /**
+     * 二级宏观错误码，认证错误
+     */
+    AUTHENTICATION_ERROR("A0400", "Authentication error"),
+    /**
+     * 二级宏观错误码，认证过期
+     */
+    AUTHENTICATION_EXPIRE_ERROR("A0401", "Authentication expire error， please login again"),
+    /**
+     * 二级宏观错误码，授权错误
+     */
+    AUTHORIZATION_ERROR("A0500", "Authorization error"),
+    /**
+     * 二级宏观错误码，授权错误
+     */
+    AUTHORIZATION_MISS_ERROR("A0501", "Authorization miss error"),
 
 
     /**

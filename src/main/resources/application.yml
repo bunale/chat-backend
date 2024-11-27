@@ -27,6 +27,10 @@ jasypt:
       prefix: ENC(
       suffix: )
 
+jwt:
+  secret: ENC(xCWHJgtTx1iPz4QD4U2z8E9OqHeO32tPUodkjpahGKngNU1rFRcnrvWkZBM5RdZW6SGRoIqpZT0=)
+  expiration: 3600000
+
 logging:
   level:
     org:

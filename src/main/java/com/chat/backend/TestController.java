@@ -1,5 +1,6 @@
 package com.chat.backend;
 
+import com.chat.backend.base.R;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +15,7 @@ public class TestController {
 
 
     @GetMapping("/hello")
-    public String hello() {
-        return "Hello World!";
+    public R<?> hello() {
+        return R.ok("Hello World!");
     }
 }

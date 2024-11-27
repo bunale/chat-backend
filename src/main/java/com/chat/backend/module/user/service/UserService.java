@@ -20,4 +20,12 @@ public interface UserService extends IService<UserDO> {
      * @author bunale
      */
     UserLoginResp register(UserRegisterParam userRegisterParam, HttpServletResponse response);
+
+    /**
+     * 根据用户名获取用户信息
+     * @param username 用户名
+     * @return {@link UserDO }
+     * @author liujie
+     */
+    UserDO getByUsername(String username);
 }

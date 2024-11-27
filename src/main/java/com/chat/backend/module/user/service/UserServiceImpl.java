@@ -21,6 +21,27 @@ import java.util.List;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements UserService{
 
+    private final UserMapper userMapper;
+
+    public UserServiceImpl(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
+    /**
+     * 根据用户名获取用户信息
+     *
+     * @param username 用户名
+     * @return {@link UserDO }
+     * @author liujie
+     */
+    @Override
+    public UserDO getByUsername(String username) {
+        return userMapper.selectOneByQuery(
+                QueryWrapper.create()
+                        .eq(UserDO::getName, username)
+        );
+    }
+
     /**
      * 用户注册，注册成功后自动登录
      *
