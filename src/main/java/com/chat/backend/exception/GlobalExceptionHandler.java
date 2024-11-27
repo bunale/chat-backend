@@ -1,6 +1,6 @@
 package com.chat.backend.exception;
 
-import com.chat.backend.base.R;
+import com.chat.backend.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

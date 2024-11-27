@@ -1,4 +1,4 @@
-package com.chat.backend.module.user.entity;
+package com.chat.backend.module.user.domain.entity;
 
 import com.mybatisflex.annotation.Id;
 import com.mybatisflex.annotation.KeyType;
@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table("chat_friendship")
-public class Friendship implements Serializable {
+public class FriendshipDO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -36,6 +36,8 @@ public class Friendship implements Serializable {
     private String receiver;
 
     private Integer status;
+
+    private String remark;
 
     private LocalDateTime createdTime;
 

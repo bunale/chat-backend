@@ -1,4 +1,4 @@
-package com.chat.backend.base;
+package com.chat.backend.common;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;

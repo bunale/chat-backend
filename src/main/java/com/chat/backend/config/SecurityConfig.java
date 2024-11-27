@@ -2,11 +2,11 @@ package com.chat.backend.config;
 
 import com.chat.backend.module.user.domain.entity.UserDO;
 import com.chat.backend.module.user.mapper.UserMapper;
+import com.chat.backend.module.user.service.UserService;
 import com.chat.backend.util.jwt.JwtUtils;
 import com.mybatisflex.core.query.QueryWrapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.DispatcherType;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,9 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author bunale
  * @since 2024/11/23
@@ -38,9 +35,9 @@ public class SecurityConfig {
     private UserMapper userMapper;
     @Resource
     private JwtUtils jwtUtils;
+    @Resource
+    private UserService userService;
 
-    @Value("${admin.emails}")
-    private List<String> adminEmails;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -49,12 +46,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         // forward和error请求不需要登录
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
-                        .requestMatchers("/user/login", "/user/register").permitAll()
+                        .requestMatchers("/user/operation/login", "/user/operation/register").permitAll()
                         .requestMatchers("/test/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 // 添加自定义的JWT过滤器
-                .addFilterAfter(new JwtAuthenticationFilter(jwtUtils, userDetailsService()), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(new JwtAuthenticationFilter(jwtUtils, userService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -83,16 +80,11 @@ public class SecurityConfig {
                 throw new UsernameNotFoundException("User not found with username: " + username);
             }
 
-            List<String> roles = new ArrayList<>();
-            roles.add("ROLE_USER");
-            if (adminEmails.contains(userDO.getEmail())) {
-                roles.add("ROLE_ADMIN");
-            }
+
             return User.builder()
                     .passwordEncoder(password -> passwordEncoder().encode(password))
                     .username(userDO.getName())
                     .password(userDO.getPassword())
-                    .authorities(roles.toArray(new String[0]))
                     .build();
         };
     }

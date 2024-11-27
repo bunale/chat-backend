@@ -43,6 +43,7 @@ public class MybatisCodeGenerateTest {
         //设置生成 controller、service、mapper,mapper xml
         globalConfig.setControllerGenerateEnable(true);
         globalConfig.setServiceGenerateEnable(true);
+        globalConfig.setServiceImplGenerateEnable(true);
         globalConfig.setMapperGenerateEnable(true);
         globalConfig.setMapperXmlGenerateEnable(true);
 

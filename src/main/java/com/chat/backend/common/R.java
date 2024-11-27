@@ -1,4 +1,4 @@
-package com.chat.backend.base;
+package com.chat.backend.common;
 
 import com.chat.backend.exception.ErrorCode;
 import lombok.Getter;

@@ -1,78 +1,46 @@
 package com.chat.backend.module.user.controller;
 
-import com.chat.backend.module.user.entity.Friendship;
+import com.chat.backend.common.R;
+import com.chat.backend.module.user.domain.entity.FriendshipDO;
+import com.chat.backend.module.user.domain.param.IdsParam;
 import com.chat.backend.module.user.service.FriendshipService;
 import com.mybatisflex.core.paginate.Page;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
- * 控制层。
+ * 好友关系数据API。
  *
  * @author 14110
  * @since 2024-11-27
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/friendship")
 public class FriendshipController {
 
-    @Autowired
-    private FriendshipService friendshipService;
+    private final FriendshipService friendshipService;
 
     /**
      * 添加。
      *
-     * @param friendship
+     * @param friendshipDO 参数对象
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
     @PostMapping("save")
-    public boolean save(@RequestBody Friendship friendship) {
-        return friendshipService.save(friendship);
+    public R<?> save(@RequestBody FriendshipDO friendshipDO) {
+        return R.ok(friendshipService.save(friendshipDO));
     }
 
     /**
-     * 根据主键删除。
+     * 根据主键批量删除。
      *
-     * @param id 主键
-     * @return {@code true} 删除成功，{@code false} 删除失败
+     * @param idsParam 参数对象
+     * @return {@code true} 删除成功，{@code false} 删除失败@author bunale
      */
-    @DeleteMapping("remove/{id}")
-    public boolean remove(@PathVariable Long id) {
-        return friendshipService.removeById(id);
-    }
-
-    /**
-     * 根据主键更新。
-     *
-     * @param friendship
-     * @return {@code true} 更新成功，{@code false} 更新失败
-     */
-    @PutMapping("update")
-    public boolean update(@RequestBody Friendship friendship) {
-        return friendshipService.updateById(friendship);
-    }
-
-    /**
-     * 查询所有。
-     *
-     * @return 所有数据
-     */
-    @GetMapping("list")
-    public List<Friendship> list() {
-        return friendshipService.list();
-    }
-
-    /**
-     * 根据主键获取详细信息。
-     *
-     * @param id 主键
-     * @return 详情
-     */
-    @GetMapping("getInfo/{id}")
-    public Friendship getInfo(@PathVariable Long id) {
-        return friendshipService.getById(id);
+    @DeleteMapping("remove")
+    public R<?> remove(IdsParam idsParam) {
+        return R.ok(friendshipService.removeByIds(idsParam.getIds()));
     }
 
     /**
@@ -82,8 +50,8 @@ public class FriendshipController {
      * @return 分页对象
      */
     @GetMapping("page")
-    public Page<Friendship> page(Page<Friendship> page) {
-        return friendshipService.page(page);
+    public R<?> page(Page<FriendshipDO> page) {
+        return R.ok(friendshipService.page(page));
     }
 
 }

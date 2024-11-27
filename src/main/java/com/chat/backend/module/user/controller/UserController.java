@@ -1,10 +1,10 @@
 package com.chat.backend.module.user.controller;
 
-import com.chat.backend.base.BaseController;
-import com.chat.backend.base.R;
+import com.chat.backend.common.BaseController;
+import com.chat.backend.common.R;
 import com.chat.backend.module.user.domain.param.UserLoginParam;
 import com.chat.backend.module.user.domain.param.UserRegisterParam;
-import com.chat.backend.module.user.service.UserService;
+import com.chat.backend.module.user.service.UserOperationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,20 +20,20 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/operation")
 public class UserController extends BaseController {
 
-    private final UserService userService;
+    private final UserOperationService userOperationService;
 
     @PostMapping("/register")
     public R<?> register(@RequestBody UserRegisterParam userRegisterParam) {
-        return R.ok(userService.register(userRegisterParam, response));
+        return R.ok(userOperationService.register(userRegisterParam, response));
     }
 
     @PostMapping("/login")
     public R<?> login(@RequestBody UserLoginParam loginParam) {
         log.info("loginParam: {}", loginParam);
-        return R.ok(userService.loginByUsernameAndPwd(loginParam));
+        return R.ok(userOperationService.loginByUsernameAndPwd(loginParam));
     }
 
 }
