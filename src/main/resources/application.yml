@@ -36,3 +36,7 @@ logging:
     org:
       springframework:
         security=TRACE: TRACE
+
+admin:
+  emails:
+    -1411068461@qq.com

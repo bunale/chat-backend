@@ -6,6 +6,7 @@ import com.chat.backend.util.jwt.JwtUtils;
 import com.mybatisflex.core.query.QueryWrapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.DispatcherType;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +23,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author bunale
  * @since 2024/11/23
@@ -34,6 +38,9 @@ public class SecurityConfig {
     private UserMapper userMapper;
     @Resource
     private JwtUtils jwtUtils;
+
+    @Value("${admin.emails}")
+    private List<String> adminEmails;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -76,11 +83,16 @@ public class SecurityConfig {
                 throw new UsernameNotFoundException("User not found with username: " + username);
             }
 
+            List<String> roles = new ArrayList<>();
+            roles.add("ROLE_USER");
+            if (adminEmails.contains(userDO.getEmail())) {
+                roles.add("ROLE_ADMIN");
+            }
             return User.builder()
                     .passwordEncoder(password -> passwordEncoder().encode(password))
                     .username(userDO.getName())
                     .password(userDO.getPassword())
-                    .authorities("ROLE_USER")
+                    .authorities(roles.toArray(new String[0]))
                     .build();
         };
     }
