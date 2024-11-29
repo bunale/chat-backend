@@ -47,6 +47,8 @@ public class SecurityConfig {
                         // forward和error请求不需要登录
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
                         .requestMatchers("/user/operation/login", "/user/operation/register").permitAll()
+                        // 允许Swagger相关的路径匿名访问
+                        .requestMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**", "/webjars/**").permitAll()
                         .requestMatchers("/test/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
