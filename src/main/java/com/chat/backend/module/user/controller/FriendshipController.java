@@ -1,5 +1,6 @@
 package com.chat.backend.module.user.controller;
 
+import com.chat.backend.common.PageParam;
 import com.chat.backend.common.R;
 import com.chat.backend.module.user.domain.entity.FriendshipDO;
 import com.chat.backend.module.user.domain.param.IdsParam;
@@ -51,13 +52,13 @@ public class FriendshipController {
     /**
      * 分页查询。
      *
-     * @param page 分页对象
+     * @param pageParam 分页对象
      * @return 分页对象
      */
     @Operation(summary = "分页查询好友关系数据")
     @GetMapping("page")
-    public R<?> page(Page<FriendshipDO> page) {
-        return R.ok(friendshipService.page(page));
+    public R<?> page(PageParam pageParam) {
+        return R.ok(friendshipService.page(Page.of(pageParam.getPageNumber(), pageParam.getPageSize())));
     }
 
 }

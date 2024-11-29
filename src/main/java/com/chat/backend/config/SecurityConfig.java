@@ -1,7 +1,9 @@
 package com.chat.backend.config;
 
 import com.chat.backend.module.user.domain.entity.UserDO;
+import com.chat.backend.module.user.entity.UserRoleDO;
 import com.chat.backend.module.user.mapper.UserMapper;
+import com.chat.backend.module.user.service.UserRoleService;
 import com.chat.backend.module.user.service.UserService;
 import com.chat.backend.util.jwt.JwtUtils;
 import com.mybatisflex.core.query.QueryWrapper;
@@ -23,6 +25,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.List;
+
 /**
  * @author bunale
  * @since 2024/11/23
@@ -37,7 +41,8 @@ public class SecurityConfig {
     private JwtUtils jwtUtils;
     @Resource
     private UserService userService;
-
+    @Resource
+    private UserRoleService userRoleService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -46,14 +51,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         // forward和error请求不需要登录
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
+                        // 放开登录，注册等请求
                         .requestMatchers("/user/operation/login", "/user/operation/register").permitAll()
                         // 允许Swagger相关的路径匿名访问
                         .requestMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**", "/webjars/**").permitAll()
-                        .requestMatchers("/test/**").hasRole("USER")
+                        .requestMatchers("/test/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 // 添加自定义的JWT过滤器
-                .addFilterAfter(new JwtAuthenticationFilter(jwtUtils, userService), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(new JwtAuthenticationFilter(jwtUtils, userService, userRoleService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -82,11 +88,18 @@ public class SecurityConfig {
                 throw new UsernameNotFoundException("User not found with username: " + username);
             }
 
+            // 查询用户的角色
+            List<UserRoleDO> userRoles = userRoleService.list(
+                    QueryWrapper.create()
+                            .eq(UserRoleDO::getUserId, userDO.getUserId())
+            );
+            List<String> roleKeys = userRoles.stream().map(UserRoleDO::getRoleKey).toList();
 
             return User.builder()
                     .passwordEncoder(password -> passwordEncoder().encode(password))
                     .username(userDO.getName())
                     .password(userDO.getPassword())
+                    .authorities(roleKeys.toArray(new String[0]))
                     .build();
         };
     }

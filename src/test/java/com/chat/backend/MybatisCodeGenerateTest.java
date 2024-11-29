@@ -34,14 +34,14 @@ public class MybatisCodeGenerateTest {
 
         //设置表前缀和只生成哪些表
         globalConfig.setTablePrefix("chat_");
-        globalConfig.setGenerateTable("chat_friendship");
+        globalConfig.setGenerateTable("chat_role", "chat_user_role");
 
         //设置生成 entity 并启用 Lombok
         globalConfig.setEntityWithLombok(true);
         globalConfig.setEntityGenerateEnable(true);
 
         //设置生成 controller、service、mapper,mapper xml
-        globalConfig.setControllerGenerateEnable(true);
+//        globalConfig.setControllerGenerateEnable(true);
         globalConfig.setServiceGenerateEnable(true);
         globalConfig.setServiceImplGenerateEnable(true);
         globalConfig.setMapperGenerateEnable(true);

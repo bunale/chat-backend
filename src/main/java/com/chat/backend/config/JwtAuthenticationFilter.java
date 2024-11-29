@@ -2,8 +2,11 @@ package com.chat.backend.config;
 
 import com.chat.backend.common.UserContext;
 import com.chat.backend.module.user.domain.entity.UserDO;
+import com.chat.backend.module.user.entity.UserRoleDO;
+import com.chat.backend.module.user.service.UserRoleService;
 import com.chat.backend.module.user.service.UserService;
 import com.chat.backend.util.jwt.JwtUtils;
+import com.mybatisflex.core.query.QueryWrapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +18,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,13 +33,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtils jwtUtils;
     private final UserService userService;
+    private final UserRoleService userRoleService;
 
-    public JwtAuthenticationFilter(JwtUtils jwtUtils, UserService userService) {
+    public JwtAuthenticationFilter(JwtUtils jwtUtils, UserService userService, UserRoleService userRoleService) {
         this.jwtUtils = jwtUtils;
         this.userService = userService;
+        this.userRoleService = userRoleService;
     }
 
     @Override
+    @SuppressWarnings("all")
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         final String authorizationHeader = request.getHeader("Authorization");
@@ -62,19 +67,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             userContext.setAvatar(userDO.getAvatar());
             userContext.setEmail(userDO.getEmail());
 
-            // 设置用户角色
-            List<String> roles = new ArrayList<>();
-            roles.add("ROLE_USER");
-            String adminEmail = "1411068461@qq.com";
-            if (adminEmail.equals(userDO.getEmail())) {
-                roles.add("ROLE_ADMIN");
-            }
-            userContext.setRole(roles);
+            // 查询用户的角色
+            List<UserRoleDO> userRoleDOS = userRoleService.list(
+                    QueryWrapper.create()
+                            .eq(UserRoleDO::getUserId, userDO.getUserId())
+            );
+            List<SimpleGrantedAuthority> authorities = userRoleDOS.stream()
+                    .map(UserRoleDO::getRoleKey)
+                    .map(SimpleGrantedAuthority::new)
+                    .toList();
 
             // 组装用户凭证，并存放到 SecurityContextHolder 中，以便于 Spring Security 进行权限验证
-            List<SimpleGrantedAuthority> authorities = roles.stream().map(SimpleGrantedAuthority::new).toList();
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    userContext, null, authorities);
+                    userContext, null, authorities
+            );
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

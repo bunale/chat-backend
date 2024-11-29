@@ -4,6 +4,7 @@ import lombok.Getter;
 
 /**
  * 错误码枚举类
+ *
  * @author ：bunale
  * @since ：Created in 2024/11/17 11:22
  */
@@ -36,9 +37,9 @@ public enum ErrorCode {
      */
     USER_LOGIN_ERROR("A0200", "User login error"),
     /**
-     * 二级宏观错误码，用户名或密码错误
+     * 用户名或密码错误
      */
-    USERNAME_OR_PASSWORD_ERROR("A0200", "Username or password error"),
+    USERNAME_OR_PASSWORD_ERROR("A0201", "Username or password error"),
     /**
      * 二级宏观错误码，参数错误
      */

@@ -6,6 +6,7 @@ import com.chat.backend.module.user.domain.entity.UserDO;
 import com.chat.backend.module.user.domain.param.UserLoginParam;
 import com.chat.backend.module.user.domain.param.UserRegisterParam;
 import com.chat.backend.module.user.domain.resp.UserLoginResp;
+import com.chat.backend.module.user.entity.UserRoleDO;
 import com.chat.backend.util.IdGenerator;
 import com.chat.backend.util.jwt.JwtUtils;
 import com.mybatisflex.core.query.QueryWrapper;
@@ -17,6 +18,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -32,6 +34,7 @@ public class UserOperationServiceImpl implements UserOperationService {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
+    private final UserRoleService userRoleService;
 
     /**
      * 使用用户名和密码登录
@@ -92,6 +95,14 @@ public class UserOperationServiceImpl implements UserOperationService {
         userDO.setStatus(1);
         userService.save(userDO);
 
+        String baseRoleKey = "ROLE_USER";
+        UserRoleDO userRoleDO = new UserRoleDO();
+        userRoleDO.setUserId(userDO.getUserId());
+        userRoleDO.setRoleKey(baseRoleKey);
+        userRoleDO.setCreatedTime(LocalDateTime.now());
+        userRoleService.save(userRoleDO);
+
+        // 注册成功，执行登录
         UserLoginParam loginParam = new UserLoginParam();
         loginParam.setUsername(userDO.getName());
         loginParam.setPassword(userRegisterParam.getPassword());
