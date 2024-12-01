@@ -38,6 +38,18 @@ public class FriendshipController {
     }
 
     /**
+     * 添加。
+     *
+     * @param friendshipDO 参数对象
+     * @return {@code true} 添加成功，{@code false} 添加失败
+     */
+    @Operation(summary = "处理好友关系数据")
+    @PostMapping("hanle")
+    public R<?> handle(@RequestBody FriendshipDO friendshipDO) {
+        return R.ok(friendshipService.save(friendshipDO));
+    }
+
+    /**
      * 根据主键批量删除。
      *
      * @param idsParam 参数对象

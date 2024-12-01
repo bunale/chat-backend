@@ -16,7 +16,7 @@ import javax.sql.DataSource;
  * @since 2024/11/27
  */
 @SpringBootTest
-public class MybatisCodeGenerateTest {
+public class MybatisCodeGenerateTest extends BaseTest {
 
     @Resource
     private DataSource dataSource;
@@ -34,7 +34,7 @@ public class MybatisCodeGenerateTest {
 
         //设置表前缀和只生成哪些表
         globalConfig.setTablePrefix("chat_");
-        globalConfig.setGenerateTable("chat_conversations", "chat_conversation_participant", "chat_message", "chat_message_attachment");
+        globalConfig.setGenerateTable("chat_conversation", "chat_conversation_participant", "chat_message", "chat_message_attachment");
 
         //设置生成 entity 并启用 Lombok
         globalConfig.setEntityWithLombok(true);

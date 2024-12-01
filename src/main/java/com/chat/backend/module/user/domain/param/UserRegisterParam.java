@@ -1,5 +1,6 @@
 package com.chat.backend.module.user.domain.param;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
@@ -11,10 +12,13 @@ import lombok.Data;
 @Data
 public class UserRegisterParam {
 
+    @NotBlank
     private String email;
 
+    @NotBlank
     private String password;
 
+    @NotBlank
     private String verificationCode;
 
 }

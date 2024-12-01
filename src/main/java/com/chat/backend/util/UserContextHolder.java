@@ -18,7 +18,7 @@ public class UserContextHolder {
      * @return {@link String }
      * @author bunale
      */
-    private static String getCurrentUserId() {
+    public static String getCurrentUserId() {
         UserContext userContext = getCurrentUserContext();
         return userContext.getUserId();
     }
@@ -27,7 +27,7 @@ public class UserContextHolder {
      * 获取当前生效的用户上下文
      * @return {@link UserContext }
      */
-    private static UserContext getCurrentUserContext() {
+    public static UserContext getCurrentUserContext() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             throw new BaseException(ErrorCode.AUTHENTICATION_EXPIRE_ERROR);

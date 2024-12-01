@@ -45,6 +45,10 @@ public enum ErrorCode {
      */
     PARAMETER_ERROR("A0300", "Parameter error"),
     /**
+     * 头像格式错误
+     */
+    AVATAR_FORMAT_ERROR("A0301", "AVATAR_FORMAT_ERROR"),
+    /**
      * 二级宏观错误码，认证错误
      */
     AUTHENTICATION_ERROR("A0400", "Authentication error"),

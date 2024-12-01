@@ -17,7 +17,7 @@ public class JasyptEncryptTest extends BaseTest {
 
     @Test
     public void testEncrypt() {
-        String rawText = "123456";
+        String rawText = "liujie-image";
         String encryptedText = stringEncryptor.encrypt(rawText);
         System.out.println("rawText: " + rawText);
         System.out.println("encryptText: " + encryptedText);

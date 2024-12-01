@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class SaveFriendshipParam {
 
-    private Long receiver;
+    private String receiver;
 
     private String remark;
     

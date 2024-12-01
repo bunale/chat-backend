@@ -4,6 +4,7 @@ import com.chat.backend.module.user.domain.entity.UserDO;
 import com.chat.backend.module.user.mapper.UserMapper;
 import com.chat.backend.util.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.x.file.storage.spring.EnableFileStorage;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +18,7 @@ import java.util.List;
  * @since Created in 2024/11/17
  */
 @Slf4j
+@EnableFileStorage
 @MapperScan("com.chat.backend.**.mapper")
 @SpringBootApplication
 public class ChatBackendApplication {

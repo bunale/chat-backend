@@ -31,6 +31,20 @@ jwt:
   secret: ENC(xCWHJgtTx1iPz4QD4U2z8E9OqHeO32tPUodkjpahGKngNU1rFRcnrvWkZBM5RdZW6SGRoIqpZT0=)
   expiration: 3600000
 
+dromara:
+  # 文件存储配置
+  x-file-storage:
+    default-platform: aliyun-oss # 默认使用的存储平台
+    aliyun-oss:
+      - platform: aliyun-oss
+        enable-storage: true
+        access-key: ENC(d7DYZYnlk2h0V+++NrE1JqB+LKbGFo+59+Iyx45vajYrkBFBwnY3vKbg4TqCAx1h)
+        secret-key: ENC(vUlhD9GXID2X+C7x5b95VTmDg9A7/8inW+vbDyReBvdAgtOl7TZnPbDyusuQh0ch)
+        end-point: oss-cn-shenzhen.aliyuncs.com
+        bucket-name: ENC(hk5m0dSJ/IJny++fKno/T3EWbKrc2sJYG/gMMGsbxoA=)
+        domain: liujie-image.oss-cn-shenzhen.aliyuncs.com/
+        base-path: ${spring.application.name}/
+
 logging:
   level:
     org:
