@@ -34,7 +34,7 @@ public class MybatisCodeGenerateTest {
 
         //设置表前缀和只生成哪些表
         globalConfig.setTablePrefix("chat_");
-        globalConfig.setGenerateTable("chat_role", "chat_user_role");
+        globalConfig.setGenerateTable("chat_conversations", "chat_conversation_participant", "chat_message", "chat_message_attachment");
 
         //设置生成 entity 并启用 Lombok
         globalConfig.setEntityWithLombok(true);
@@ -46,6 +46,9 @@ public class MybatisCodeGenerateTest {
         globalConfig.setServiceImplGenerateEnable(true);
         globalConfig.setMapperGenerateEnable(true);
         globalConfig.setMapperXmlGenerateEnable(true);
+
+        //设置生成的 entity 类名后缀
+        globalConfig.setEntityClassSuffix("DO");
 
         //设置项目的JDK版本，项目的JDK为14及以上时建议设置该项，小于14则可以不设置
         globalConfig.setEntityJdkVersion(17);

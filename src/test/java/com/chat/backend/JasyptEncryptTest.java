@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @since ：Created in 2024/11/17 1:10
  */
 @SpringBootTest
-public class JasyptEncryptTest {
+public class JasyptEncryptTest extends BaseTest {
 
     @Autowired
     private StringEncryptor stringEncryptor;
