@@ -1,6 +1,9 @@
 package com.chat.backend.module.user.service;
 
 import com.chat.backend.module.user.domain.entity.UserDO;
+import com.chat.backend.module.user.domain.param.QueryUserDataParam;
+import com.chat.backend.module.user.domain.resp.UserResp;
+import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.service.IService;
 
 /**
@@ -19,7 +22,6 @@ public interface UserService extends IService<UserDO> {
     UserDO getByUsername(String username);
 
 
-
     /**
      * 根据用户id获取用户信息
      *
@@ -28,4 +30,12 @@ public interface UserService extends IService<UserDO> {
      * @author bunale
      */
     UserDO getByUserId(String userId);
+
+    /**
+     * 分页查询用户信息
+     *
+     * @param param 查询参数
+     * @return {@link Page }<{@link UserDO }>
+     */
+    Page<UserResp> page(QueryUserDataParam param);
 }

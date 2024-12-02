@@ -2,12 +2,14 @@ package com.chat.backend.module.user.service;
 
 import com.chat.backend.exception.BaseException;
 import com.chat.backend.exception.ErrorCode;
+import com.chat.backend.module.file.FileManagementService;
 import com.chat.backend.module.user.domain.entity.UserDO;
 import com.chat.backend.module.user.domain.param.UserLoginParam;
 import com.chat.backend.module.user.domain.param.UserRegisterParam;
 import com.chat.backend.module.user.domain.resp.UserLoginResp;
 import com.chat.backend.module.user.entity.UserRoleDO;
 import com.chat.backend.util.IdGenerator;
+import com.chat.backend.util.ImageGeneratorUtil;
 import com.chat.backend.util.jwt.JwtUtils;
 import com.mybatisflex.core.query.QueryWrapper;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,6 +37,7 @@ public class UserOperationServiceImpl implements UserOperationService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
     private final UserRoleService userRoleService;
+    private final FileManagementService fileManagementService;
 
     /**
      * 使用用户名和密码登录
@@ -87,11 +90,18 @@ public class UserOperationServiceImpl implements UserOperationService {
             throw new BaseException(ErrorCode.USER_ALREADY_EXIST);
         }
 
+        // 生成头像
+        String userId = IdGenerator.generateFixedLengthSnowflake(32);
+        byte[] bytes = ImageGeneratorUtil.generateImage(userRegisterParam.getEmail());
+        String avatarUrl = fileManagementService.uploadAvatar(bytes, userId);
+
         UserDO userDO = new UserDO();
-        userDO.setUserId(IdGenerator.generateFixedLengthSnowflake(32));
+        userDO.setUserId(userId);
         userDO.setEmail(userRegisterParam.getEmail());
         userDO.setName(userRegisterParam.getEmail());
         userDO.setPassword(userRegisterParam.getPassword());
+        userDO.setAvatar(avatarUrl);
+        userDO.setCreateTime(LocalDateTime.now());
         userDO.setStatus(1);
         userService.save(userDO);
 

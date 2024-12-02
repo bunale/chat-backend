@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user/operation")
-public class UserController extends BaseController {
+public class UserOperationController extends BaseController {
 
     private final UserOperationService userOperationService;
 

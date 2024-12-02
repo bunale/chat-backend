@@ -70,7 +70,7 @@ public class FriendshipController {
     @Operation(summary = "分页查询好友关系数据")
     @GetMapping("page")
     public R<?> page(PageParam pageParam) {
-        return R.ok(friendshipService.page(Page.of(pageParam.getPageNumber(), pageParam.getPageSize())));
+        return R.ok(friendshipService.page(Page.of(pageParam.getPageNum(), pageParam.getPageSize())));
     }
 
 }
