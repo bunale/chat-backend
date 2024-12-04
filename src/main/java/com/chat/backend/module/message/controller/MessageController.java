@@ -2,6 +2,7 @@ package com.chat.backend.module.message.controller;
 
 import com.chat.backend.common.R;
 import com.chat.backend.module.message.domain.param.GetMessageParam;
+import com.chat.backend.module.message.domain.param.SendMessageParam;
 import com.chat.backend.module.message.domain.vo.MessageVO;
 import com.chat.backend.module.message.service.MessageService;
 import com.chat.backend.util.UserContextHolder;
@@ -28,6 +29,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class MessageController {
 
     private final MessageService messageService;
+
+    @Operation(summary = "发送消息到指定的会话中")
+    @GetMapping("/send")
+    public R<?> send(SendMessageParam param) {
+        param.setCurrentUser(UserContextHolder.getCurrentUserContext());
+        messageService.send(param);
+        return R.ok();
+    }
 
     @Operation(summary = "分页查询消息")
     @GetMapping("/page")

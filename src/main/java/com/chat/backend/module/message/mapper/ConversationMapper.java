@@ -1,7 +1,9 @@
 package com.chat.backend.module.message.mapper;
 
 import com.chat.backend.module.message.domain.entity.ConversationDO;
+import com.chat.backend.module.message.domain.param.GetConversationParam;
 import com.mybatisflex.core.BaseMapper;
+import com.mybatisflex.core.paginate.Page;
 
 /**
  * 会话表 映射层。
@@ -11,4 +13,12 @@ import com.mybatisflex.core.BaseMapper;
  */
 public interface ConversationMapper extends BaseMapper<ConversationDO> {
 
+    /**
+     * 分页查询指定用户的会话列表
+     *
+     * @param pageParam page param
+     * @return {@link Page }<{@link ConversationDO }>
+     * @author bunale
+     */
+    Page<ConversationDO> getConversationPage(GetConversationParam pageParam);
 }

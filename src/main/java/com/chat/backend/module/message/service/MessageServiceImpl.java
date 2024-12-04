@@ -5,7 +5,9 @@ import com.chat.backend.common.UserContext;
 import com.chat.backend.module.message.domain.entity.ConversationDO;
 import com.chat.backend.module.message.domain.entity.MessageDO;
 import com.chat.backend.module.message.domain.param.AddConversationParam;
+import com.chat.backend.module.message.domain.param.GetConversationParam;
 import com.chat.backend.module.message.domain.param.GetMessageParam;
+import com.chat.backend.module.message.domain.param.SendMessageParam;
 import com.chat.backend.module.message.domain.vo.ConversationVO;
 import com.chat.backend.module.message.domain.vo.MessageVO;
 import com.chat.backend.module.message.manager.ConversationManager;
@@ -40,6 +42,52 @@ public class MessageServiceImpl implements MessageService {
     private final ConversationManager conversationManager;
     private final ConversationParticipantManager conversationParticipantManager;
     private final UserService userService;
+
+    /**
+     * 发送消息到指定会话
+     *
+     * @param param param
+     * @author bunale
+     */
+    @Override
+    public void send(SendMessageParam param) {
+        MessageDO messageDO = new MessageDO();
+        messageDO.setConversationId(param.getConversationId());
+        messageDO.setContent(param.getContent());
+        messageDO.setSenderId((param).getCurrentUser().getUserId());
+        messageDO.setType(param.getType());
+        messageDO.setSentAt(LocalDateTime.now());
+        messageDO.setReadFlag(false);
+        messageDO.setDeleteFlag(false);
+        messageManager.save(messageDO);
+    }
+
+    /**
+     * 分页查询指定用户的会话列表
+     *
+     * @param pageParam page param
+     * @return {@link Page }<{@link ConversationVO }>
+     * @author bunale
+     */
+    @Override
+    public Page<ConversationVO> getConversationPage(GetConversationParam pageParam) {
+        Page<ConversationDO> page = conversationManager.getConversationPage(pageParam);
+        List<ConversationVO> vos = page.getRecords().stream().map(this::toConversationVo).toList();
+        return PageUtils.of(page, vos);
+    }
+
+    /**
+     * 根据会话id获取会话信息
+     *
+     * @param conversationId conversation id
+     * @return {@link ConversationVO }
+     * @author bunale
+     */
+    @Override
+    public ConversationVO getById(Long conversationId) {
+        ConversationDO conversationDO = conversationManager.getById(conversationId);
+        return toConversationVo(conversationDO);
+    }
 
     /**
      * 新增会话
