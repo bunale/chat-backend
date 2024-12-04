@@ -28,6 +28,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.util.List;
 
 /**
+ * Spring Security 相关的配置
+ *
  * @author bunale
  * @since 2024/11/23
  */
@@ -44,12 +46,19 @@ public class SecurityConfig {
     @Resource
     private UserRoleService userRoleService;
 
+    /**
+     * 配置安全过滤链
+     *
+     * @param http HttpSecurity
+     * @return SecurityFilterChain
+     * @throws Exception exception
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
-                        // forward和error请求不需要登录
+                        // forward和error类型请求不需要登录
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
                         // 放开登录，注册等请求
                         .requestMatchers("/user/operation/login", "/user/operation/register").permitAll()
@@ -64,7 +73,7 @@ public class SecurityConfig {
     }
 
     /**
-     * 自定义AuthenticationManager
+     * 自定义 AuthenticationManager
      *
      * @return AuthenticationManager
      */
@@ -77,6 +86,11 @@ public class SecurityConfig {
         return new ProviderManager(authenticationProvider);
     }
 
+    /**
+     * 配置用户详情服务
+     *
+     * @return UserDetailsService
+     */
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> {

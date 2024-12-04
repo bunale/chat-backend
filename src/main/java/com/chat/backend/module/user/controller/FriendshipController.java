@@ -1,10 +1,10 @@
 package com.chat.backend.module.user.controller;
 
-import com.chat.backend.common.PageParam;
 import com.chat.backend.common.R;
-import com.chat.backend.module.user.domain.entity.FriendshipDO;
-import com.chat.backend.module.user.domain.param.IdsParam;
+import com.chat.backend.module.user.domain.param.*;
+import com.chat.backend.module.user.domain.vo.UserVO;
 import com.chat.backend.module.user.service.FriendshipService;
+import com.chat.backend.util.UserContextHolder;
 import com.mybatisflex.core.paginate.Page;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,27 +26,31 @@ public class FriendshipController {
     private final FriendshipService friendshipService;
 
     /**
-     * 添加。
+     * 添加好友关系。
      *
-     * @param friendshipDO 参数对象
+     * @param param 参数对象
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
-    @Operation(summary = "添加好友关系数据")
+    @Operation(summary = "添加好友关系")
     @PostMapping("save")
-    public R<?> save(@RequestBody FriendshipDO friendshipDO) {
-        return R.ok(friendshipService.save(friendshipDO));
+    public R<?> save(@RequestBody AddFriendshipParam param) {
+        param.setCurrentUser(UserContextHolder.getCurrentUserContext());
+        friendshipService.addFriendship(param);
+        return R.ok();
     }
 
     /**
-     * 添加。
+     * 处理好友关系请求
      *
-     * @param friendshipDO 参数对象
+     * @param param 参数对象
      * @return {@code true} 添加成功，{@code false} 添加失败
      */
-    @Operation(summary = "处理好友关系数据")
-    @PostMapping("hanle")
-    public R<?> handle(@RequestBody FriendshipDO friendshipDO) {
-        return R.ok(friendshipService.save(friendshipDO));
+    @Operation(summary = "处理好友关系请求")
+    @PostMapping("handle")
+    public R<?> handle(@RequestBody HandleFriendshipParam param) {
+        param.setCurrentUser(UserContextHolder.getCurrentUserContext());
+        friendshipService.handle(param);
+        return R.ok();
     }
 
     /**
@@ -62,15 +66,29 @@ public class FriendshipController {
     }
 
     /**
-     * 分页查询。
+     * 分页查询当前用户好友申请
      *
-     * @param pageParam 分页对象
+     * @param param 分页参数
      * @return 分页对象
      */
-    @Operation(summary = "分页查询好友关系数据")
-    @GetMapping("page")
-    public R<?> page(PageParam pageParam) {
-        return R.ok(friendshipService.page(Page.of(pageParam.getPageNum(), pageParam.getPageSize())));
+    @Operation(summary = "分页查询当前用户好友申请")
+    @GetMapping("/myFriendshipRequest")
+    public R<?> myFriendshipRequest(GetMyFriendshipRequestParam param) {
+        param.setCurrentUser(UserContextHolder.getCurrentUserContext());
+        return R.ok(friendshipService.myFriendshipRequest(param));
+    }
+
+    /**
+     * 分页查询当前用户的好友列表
+     *
+     * @param param 分页参数
+     */
+    @Operation(summary = "分页查询当前用户的好友列表")
+    @GetMapping("/getMyFriendList")
+    public R<?> getMyFriendList(GetMyFriendListParam param) {
+        param.setCurrentUser(UserContextHolder.getCurrentUserContext());
+        Page<UserVO> page = friendshipService.getMyFriendList(param);
+        return R.ok(page);
     }
 
 }

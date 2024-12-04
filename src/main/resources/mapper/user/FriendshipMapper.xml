@@ -4,4 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chat.backend.module.user.mapper.FriendshipMapper">
 
+    <select id="getFriendList" resultType="com.chat.backend.module.user.domain.vo.UserVO">
+        select t1.user_id userId,
+               t1.name    username,
+               t1.email,
+               t1.avatar
+        from chat_user t1
+        where user_id in (select t2.receiver
+                          from chat_friendship t2
+                          where t2.initiator = #{userId}
+                            and t2.status = 1
+                          union
+                          select t3.initiator
+                          from chat_friendship t3
+                          where t3.receiver = #{userId}
+                            and t3.status = 1)
+    </select>
 </mapper>

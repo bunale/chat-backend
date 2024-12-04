@@ -13,10 +13,10 @@ public class PageParam {
     /**
      * 页码。
      */
-    private long pageNum;
+    private Integer pageNum;
 
     /**
      * 每页数据数量。
      */
-    private long pageSize;
+    private Integer pageSize;
 }

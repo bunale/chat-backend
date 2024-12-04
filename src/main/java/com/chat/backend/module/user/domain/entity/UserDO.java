@@ -54,7 +54,7 @@ public class UserDO {
     /**
      * 创建人
      */
-    private String createUser_id;
+    private String createUserId;
 
     /**
      * 创建时间
@@ -81,7 +81,7 @@ public class UserDO {
                 ", email='" + email + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", status=" + status +
-                ", createUser_id='" + createUser_id + '\'' +
+                ", createUser_id='" + createUserId + '\'' +
                 ", createTime=" + createTime +
                 ", lastUpdateUserId='" + lastUpdateUserId + '\'' +
                 ", lastUpdateTime=" + lastUpdateTime +

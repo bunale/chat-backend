@@ -46,6 +46,7 @@ public class MybatisCodeGenerateTest extends BaseTest {
         globalConfig.setServiceImplGenerateEnable(true);
         globalConfig.setMapperGenerateEnable(true);
         globalConfig.setMapperXmlGenerateEnable(true);
+        globalConfig.setEnable
 
         //设置生成的 entity 类名后缀
         globalConfig.setEntityClassSuffix("DO");

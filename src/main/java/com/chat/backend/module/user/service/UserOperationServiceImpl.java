@@ -6,7 +6,7 @@ import com.chat.backend.module.file.FileManagementService;
 import com.chat.backend.module.user.domain.entity.UserDO;
 import com.chat.backend.module.user.domain.param.UserLoginParam;
 import com.chat.backend.module.user.domain.param.UserRegisterParam;
-import com.chat.backend.module.user.domain.resp.UserLoginResp;
+import com.chat.backend.module.user.domain.vo.UserLoginVO;
 import com.chat.backend.module.user.entity.UserRoleDO;
 import com.chat.backend.util.IdGenerator;
 import com.chat.backend.util.ImageGeneratorUtil;
@@ -47,7 +47,7 @@ public class UserOperationServiceImpl implements UserOperationService {
      * @author bunale
      */
     @Override
-    public UserLoginResp loginByUsernameAndPwd(UserLoginParam loginParam) {
+    public UserLoginVO loginByUsernameAndPwd(UserLoginParam loginParam) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginParam.getUsername(), loginParam.getPassword()));
         } catch (AuthenticationException e) {
@@ -57,7 +57,7 @@ public class UserOperationServiceImpl implements UserOperationService {
         UserDO userDO = userService.getByUsername(loginParam.getUsername());
         String token = jwtUtils.generateToken(userDO.getUserId(), userDO.getName());
 
-        UserLoginResp resp = new UserLoginResp();
+        UserLoginVO resp = new UserLoginVO();
         resp.setToken(token);
         resp.setUsername(userDO.getName());
         resp.setUserId(userDO.getUserId());
@@ -73,12 +73,12 @@ public class UserOperationServiceImpl implements UserOperationService {
      *
      * @param userRegisterParam user register param
      * @param response          response
-     * @return {@link UserLoginResp }
+     * @return {@link UserLoginVO }
      * @author bunale
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public UserLoginResp register(UserRegisterParam userRegisterParam, HttpServletResponse response) {
+    public UserLoginVO register(UserRegisterParam userRegisterParam, HttpServletResponse response) {
         String verificationCode = userRegisterParam.getVerificationCode();
         String code = "1234";
         if (!verificationCode.equals(code)) {

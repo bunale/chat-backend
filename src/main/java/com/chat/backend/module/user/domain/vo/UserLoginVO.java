@@ -1,4 +1,4 @@
-package com.chat.backend.module.user.domain.resp;
+package com.chat.backend.module.user.domain.vo;
 
 import lombok.Data;
 
@@ -7,11 +7,12 @@ import java.util.List;
 
 /**
  * 用户登录响应类
+ *
  * @author bunale
  * @since 2024/11/17
  */
 @Data
-public class UserLoginResp {
+public class UserLoginVO {
 
     private String token;
 

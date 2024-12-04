@@ -3,7 +3,7 @@ package com.chat.backend.module.user.service;
 import cn.hutool.core.util.StrUtil;
 import com.chat.backend.module.user.domain.entity.UserDO;
 import com.chat.backend.module.user.domain.param.QueryUserDataParam;
-import com.chat.backend.module.user.domain.resp.UserResp;
+import com.chat.backend.module.user.domain.vo.UserVO;
 import com.chat.backend.module.user.mapper.UserMapper;
 import com.chat.backend.util.PageUtils;
 import com.mybatisflex.core.paginate.Page;
@@ -31,29 +31,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
      * @return {@link Page }<{@link UserDO }>
      */
     @Override
-    public Page<UserResp> page(QueryUserDataParam param) {
+    public Page<UserVO> page(QueryUserDataParam param) {
         QueryWrapper queryWrapper = QueryWrapper.create();
         if (StrUtil.isNotBlank(param.getUsername())) {
-            queryWrapper.eq(UserDO::getName, param.getUsername());
+            queryWrapper.like(UserDO::getName, "%" + param.getUsername() + "%");
         }
 
         Page<UserDO> page = page(Page.of(param.getPageNum(), param.getPageSize()), queryWrapper);
-        List<UserResp> userRespList = page.getRecords().stream().map(this::toUserResp).toList();
-        return PageUtils.of(page, userRespList);
+        List<UserVO> userVOList = page.getRecords().stream().map(this::toUserVo).toList();
+        return PageUtils.of(page, userVOList);
     }
 
-    private UserResp toUserResp(UserDO userDO) {
-        UserResp userResp = new UserResp();
-        userResp.setUserId(userDO.getUserId());
-        userResp.setName(userDO.getName());
-        userResp.setEmail(userDO.getEmail());
-        userResp.setAvatar(userDO.getAvatar());
-        userResp.setStatus(userDO.getStatus());
-        userResp.setCreateUser_id(userDO.getCreateUser_id());
-        userResp.setCreateTime(userDO.getCreateTime());
-        userResp.setLastUpdateUserId(userDO.getLastUpdateUserId());
-        userResp.setLastUpdateTime(userDO.getLastUpdateTime());
-        return userResp;
+    private UserVO toUserVo(UserDO userDO) {
+        UserVO userVO = new UserVO();
+        userVO.setUserId(userDO.getUserId());
+        userVO.setName(userDO.getName());
+        userVO.setEmail(userDO.getEmail());
+        userVO.setAvatar(userDO.getAvatar());
+        userVO.setStatus(userDO.getStatus());
+        userVO.setCreateUserId(userDO.getCreateUserId());
+        userVO.setCreateTime(userDO.getCreateTime());
+        userVO.setLastUpdateUserId(userDO.getLastUpdateUserId());
+        userVO.setLastUpdateTime(userDO.getLastUpdateTime());
+        return userVO;
     }
 
     /**

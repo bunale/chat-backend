@@ -1,4 +1,4 @@
-package com.chat.backend.module.user.domain.resp;
+package com.chat.backend.module.user.domain.vo;
 
 import lombok.Data;
 
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * @since 2024/12/2
  */
 @Data
-public class UserResp {
+public class UserVO {
 
     /**
      * 用户唯一标识
@@ -41,7 +41,7 @@ public class UserResp {
     /**
      * 创建人
      */
-    private String createUser_id;
+    private String createUserId;
 
     /**
      * 创建时间

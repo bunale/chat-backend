@@ -2,7 +2,7 @@ package com.chat.backend.module.user.service;
 
 import com.chat.backend.module.user.domain.param.UserLoginParam;
 import com.chat.backend.module.user.domain.param.UserRegisterParam;
-import com.chat.backend.module.user.domain.resp.UserLoginResp;
+import com.chat.backend.module.user.domain.vo.UserLoginVO;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
@@ -20,7 +20,7 @@ public interface UserOperationService {
      * @return {@link String }
      * @author bunale
      */
-    UserLoginResp loginByUsernameAndPwd(UserLoginParam loginParam);
+    UserLoginVO loginByUsernameAndPwd(UserLoginParam loginParam);
 
 
     /**
@@ -31,6 +31,6 @@ public interface UserOperationService {
      * @return {@link Object }
      * @author bunale
      */
-    UserLoginResp register(UserRegisterParam userRegisterParam, HttpServletResponse response);
+    UserLoginVO register(UserRegisterParam userRegisterParam, HttpServletResponse response);
 
 }

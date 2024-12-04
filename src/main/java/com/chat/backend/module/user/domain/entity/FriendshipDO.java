@@ -35,6 +35,9 @@ public class FriendshipDO implements Serializable {
 
     private String receiver;
 
+    /**
+     * 关系状态 0: 待确认, 1: 已接受, 2: 已拒绝
+     */
     private Integer status;
 
     private String remark;
