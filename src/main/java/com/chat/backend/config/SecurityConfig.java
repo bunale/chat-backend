@@ -1,5 +1,8 @@
 package com.chat.backend.config;
 
+import cn.hutool.json.JSONUtil;
+import com.chat.backend.common.R;
+import com.chat.backend.exception.ErrorCode;
 import com.chat.backend.module.user.domain.entity.UserDO;
 import com.chat.backend.module.user.domain.entity.UserRoleDO;
 import com.chat.backend.module.user.mapper.UserMapper;
@@ -22,7 +25,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.List;
@@ -68,8 +73,37 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 // 添加自定义的JWT过滤器
-                .addFilterAfter(new JwtAuthenticationFilter(jwtUtils, userService, userRoleService), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(new JwtAuthenticationFilter(jwtUtils, userService, userRoleService), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling((exceptionHandling) -> {
+                    // 确保在未登录的情况下访问需要认证授权的接口返回401，而不是返回默认的403，且返回统一的响应结构
+                    exceptionHandling.authenticationEntryPoint(authenticationEntryPoint())
+                            // 确保在未授权的情况下访问需要权限的接口返回统一的响应结构
+                            .accessDeniedHandler(accessDeniedHandler());
+                });
+
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return (request, response, authException) -> {
+            R<Object> failure = R.failure(ErrorCode.AUTHENTICATION_EXPIRE_ERROR);
+            response.setStatus(200);
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(JSONUtil.toJsonStr(failure));
+            response.flushBuffer();
+        };
+    }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return (request, response, authException) -> {
+            R<Object> failure = R.failure(ErrorCode.AUTHORIZATION_MISS_ERROR);
+            response.setStatus(200);
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(JSONUtil.toJsonStr(failure));
+            response.flushBuffer();
+        };
     }
 
     /**
