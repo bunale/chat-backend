@@ -1,7 +1,6 @@
 package com.chat.backend.module.user.service;
 
 import com.chat.backend.module.user.domain.entity.FriendshipDO;
-import com.chat.backend.module.user.domain.entity.FriendshipStatus;
 import com.chat.backend.module.user.domain.entity.UserDO;
 import com.chat.backend.module.user.domain.param.AddFriendshipParam;
 import com.chat.backend.module.user.domain.param.GetMyFriendListParam;
@@ -9,6 +8,7 @@ import com.chat.backend.module.user.domain.param.GetMyFriendshipRequestParam;
 import com.chat.backend.module.user.domain.param.HandleFriendshipParam;
 import com.chat.backend.module.user.domain.vo.FriendshipRequestVO;
 import com.chat.backend.module.user.domain.vo.UserVO;
+import com.chat.backend.module.user.enums.FriendshipStatus;
 import com.chat.backend.module.user.mapper.FriendshipMapper;
 import com.chat.backend.util.PageUtils;
 import com.github.pagehelper.PageHelper;

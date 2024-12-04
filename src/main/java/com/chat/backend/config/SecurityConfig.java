@@ -1,7 +1,7 @@
 package com.chat.backend.config;
 
 import com.chat.backend.module.user.domain.entity.UserDO;
-import com.chat.backend.module.user.entity.UserRoleDO;
+import com.chat.backend.module.user.domain.entity.UserRoleDO;
 import com.chat.backend.module.user.mapper.UserMapper;
 import com.chat.backend.module.user.service.UserRoleService;
 import com.chat.backend.module.user.service.UserService;

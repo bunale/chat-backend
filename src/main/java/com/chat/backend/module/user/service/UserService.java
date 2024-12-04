@@ -6,6 +6,8 @@ import com.chat.backend.module.user.domain.vo.UserVO;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.service.IService;
 
+import java.util.List;
+
 /**
  * @author ：bunale
  * @since ：Created in 2024/11/17 16:03
@@ -38,4 +40,12 @@ public interface UserService extends IService<UserDO> {
      * @return {@link Page }<{@link UserDO }>
      */
     Page<UserVO> page(QueryUserDataParam param);
+
+    /**
+     * 根据用户id批量查询用户信息
+     *
+     * @param userIds 用户id集合
+     * @return {@link List }<{@link UserDO }>
+     */
+    List<UserDO> getByUserIds(List<String> userIds);
 }

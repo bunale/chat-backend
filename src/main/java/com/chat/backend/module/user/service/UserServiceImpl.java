@@ -1,5 +1,6 @@
 package com.chat.backend.module.user.service;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.chat.backend.module.user.domain.entity.UserDO;
 import com.chat.backend.module.user.domain.param.QueryUserDataParam;
@@ -23,6 +24,24 @@ import java.util.List;
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements UserService {
 
     private final UserMapper userMapper;
+
+    /**
+     * 根据用户id批量查询用户信息
+     *
+     * @param userIds 用户id集合
+     * @return {@link List }<{@link UserDO }>
+     */
+    @Override
+    public List<UserDO> getByUserIds(List<String> userIds) {
+        if (CollUtil.isEmpty(userIds)) {
+            return List.of();
+        }
+
+        return mapper.selectListByQuery(
+                QueryWrapper.create()
+                        .in(UserDO::getUserId, userIds)
+        );
+    }
 
     /**
      * 分页查询用户信息

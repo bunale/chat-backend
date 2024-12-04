@@ -1,6 +1,6 @@
 package com.chat.backend.module.user.service;
 
-import com.chat.backend.module.user.entity.RoleDO;
+import com.chat.backend.module.user.domain.entity.RoleDO;
 import com.mybatisflex.core.service.IService;
 
 /**

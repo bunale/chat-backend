@@ -1,6 +1,6 @@
 package com.chat.backend.module.user.service.impl;
 
-import com.chat.backend.module.user.entity.RoleDO;
+import com.chat.backend.module.user.domain.entity.RoleDO;
 import com.chat.backend.module.user.mapper.RoleMapper;
 import com.chat.backend.module.user.service.RoleService;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
