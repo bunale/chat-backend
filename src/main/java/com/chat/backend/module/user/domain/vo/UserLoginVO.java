@@ -18,7 +18,7 @@ public class UserLoginVO {
 
     private String userId;
 
-    private String username;
+    private String name;
 
     private String avatar;
 

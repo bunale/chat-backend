@@ -1,5 +1,6 @@
 package com.chat.backend.module.user.service;
 
+import cn.hutool.http.HttpUtil;
 import com.chat.backend.exception.BaseException;
 import com.chat.backend.exception.ErrorCode;
 import com.chat.backend.module.file.FileManagementService;
@@ -9,7 +10,6 @@ import com.chat.backend.module.user.domain.param.UserLoginParam;
 import com.chat.backend.module.user.domain.param.UserRegisterParam;
 import com.chat.backend.module.user.domain.vo.UserLoginVO;
 import com.chat.backend.util.IdGenerator;
-import com.chat.backend.util.ImageGeneratorUtil;
 import com.chat.backend.util.jwt.JwtUtils;
 import com.mybatisflex.core.query.QueryWrapper;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,6 +20,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -57,14 +58,18 @@ public class UserOperationServiceImpl implements UserOperationService {
         UserDO userDO = userService.getByUsername(loginParam.getUsername());
         String token = jwtUtils.generateToken(userDO.getUserId(), userDO.getName());
 
+        // 获取用户角色
+        List<UserRoleDO> userRoleDOS = userRoleService.list(QueryWrapper.create().eq(UserRoleDO::getUserId, userDO.getUserId()));
+        List<String> roles = userRoleDOS.stream().map(UserRoleDO::getRoleKey).toList();
+
         UserLoginVO resp = new UserLoginVO();
         resp.setToken(token);
-        resp.setUsername(userDO.getName());
+        resp.setName(userDO.getName());
         resp.setUserId(userDO.getUserId());
         resp.setEmail(userDO.getEmail());
         resp.setAvatar(userDO.getAvatar());
         resp.setCreateTime(userDO.getCreateTime());
-        resp.setRoles(List.of());
+        resp.setRoles(roles);
         return resp;
     }
 
@@ -92,8 +97,14 @@ public class UserOperationServiceImpl implements UserOperationService {
 
         // 生成头像
         String userId = IdGenerator.generateFixedLengthSnowflake(32);
-        byte[] bytes = ImageGeneratorUtil.generateImage(userRegisterParam.getEmail());
-        String avatarUrl = fileManagementService.uploadAvatar(bytes, userId);
+        // 使用自己的工具类生成头像
+        // byte[] bytes = ImageGeneratorUtil.generateImage(userRegisterParam.getEmail());
+
+        // 使用开源 multiavatar 库生成头像
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        String avatarsUrl = "https://api.multiavatar.com/" + userId + ".png";
+        HttpUtil.download(avatarsUrl, outputStream, true);
+        String avatarUrl = fileManagementService.uploadAvatar(outputStream.toByteArray(), userId);
 
         UserDO userDO = new UserDO();
         userDO.setUserId(userId);

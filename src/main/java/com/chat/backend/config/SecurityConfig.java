@@ -96,13 +96,13 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         // 允许的源
-        config.setAllowedOrigins(List.of("https://www.uhelper.top", "http://localhost:5173"));
+        config.setAllowedOrigins(List.of("*"));
         // 允许的 HTTP 方法
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         // 允许的请求头
         config.setAllowedHeaders(List.of("*"));
         // 是否允许携带凭证
-        config.setAllowCredentials(true);
+        // config.setAllowCredentials(true);
         // 预检请求的缓存时间
         config.setMaxAge(3600L);
         // 应用 CORS 配置到指定路径

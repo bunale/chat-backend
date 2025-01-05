@@ -37,7 +37,7 @@ public class FileManagementServiceImpl implements FileManagementService {
                 .setPath(path)
                 .setSaveFilename(avatarFilename)
                 .upload();
-        return "https://" + fileInfo.getPath();
+        return "https://" + fileInfo.getUrl();
     }
 
     /**

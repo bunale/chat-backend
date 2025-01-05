@@ -45,12 +45,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @SuppressWarnings("all")
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
+        // 验证 Token，不存在或不合法则直接执行下一个过滤器，会因为没有设置 SecurityContextHolder 而导致权限验证失败
         final String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             chain.doFilter(request, response);
             return;
         }
-
         String jwt = authorizationHeader.substring(7);
         if (!jwtUtils.validateToken(jwt)) {
             chain.doFilter(request, response);
