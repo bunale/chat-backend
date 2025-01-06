@@ -8,6 +8,8 @@ import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 会话表 服务层实现。
  *
@@ -25,7 +27,7 @@ public class ConversationManagerImpl extends ServiceImpl<ConversationMapper, Con
      * @author bunale
      */
     @Override
-    public Page<ConversationDO> getConversationPage(GetConversationParam pageParam) {
+    public List<ConversationDO> getConversationPage(GetConversationParam pageParam) {
         return mapper.getConversationPage(pageParam);
     }
 }

@@ -9,6 +9,26 @@
     <select id="findById" parameterType="long" resultType="com.chat.backend.module.user.domain.entity.UserDO">
         SELECT * FROM chat_user WHERE id = #{id}
     </select>
+    <select id="queryList" resultType="com.chat.backend.module.user.domain.vo.UserPageVO">
+        select
+            t1.user_id userId,
+            t1.name,
+            t1.email,
+            t1.avatar,
+            (
+                select count(*)
+                from chat_friendship t3
+                where (t3.initiator = t1.user_id and t3.receiver = #{userId} and t3.status = 1)
+                    or (t3.receiver = t1.user_id and t3.initiator = #{userId} and t3.status = 1)
+            ) > 0 as friendFlag
+        from chat_user t1
+        <where>
+            <if test="username!= null and username!= ''">
+                and t1.username like #{username}
+            </if>
+        </where>
+        order by t1.id desc
+    </select>
 
     <!-- 其他 CRUD 方法 -->
 </mapper>

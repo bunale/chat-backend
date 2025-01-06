@@ -1,12 +1,12 @@
 package com.chat.backend.module.user.service;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
 import com.chat.backend.module.user.domain.entity.UserDO;
 import com.chat.backend.module.user.domain.param.QueryUserDataParam;
-import com.chat.backend.module.user.domain.vo.UserVO;
+import com.chat.backend.module.user.domain.vo.UserPageVO;
 import com.chat.backend.module.user.mapper.UserMapper;
 import com.chat.backend.util.PageUtils;
+import com.github.pagehelper.PageHelper;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
@@ -50,29 +50,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
      * @return {@link Page }<{@link UserDO }>
      */
     @Override
-    public Page<UserVO> page(QueryUserDataParam param) {
-        QueryWrapper queryWrapper = QueryWrapper.create();
-        if (StrUtil.isNotBlank(param.getUsername())) {
-            queryWrapper.like(UserDO::getName, "%" + param.getUsername() + "%");
-        }
-
-        Page<UserDO> page = page(Page.of(param.getPageNum(), param.getPageSize()), queryWrapper);
-        List<UserVO> userVOList = page.getRecords().stream().map(this::toUserVo).toList();
-        return PageUtils.of(page, userVOList);
+    public Page<UserPageVO> page(QueryUserDataParam param) {
+        com.github.pagehelper.Page<Object> page = PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        List<UserPageVO> vos = userMapper.queryList(param);
+        return PageUtils.of(page, vos);
     }
 
-    private UserVO toUserVo(UserDO userDO) {
-        UserVO userVO = new UserVO();
-        userVO.setUserId(userDO.getUserId());
-        userVO.setName(userDO.getName());
-        userVO.setEmail(userDO.getEmail());
-        userVO.setAvatar(userDO.getAvatar());
-        userVO.setStatus(userDO.getStatus());
-        userVO.setCreateUserId(userDO.getCreateUserId());
-        userVO.setCreateTime(userDO.getCreateTime());
-        userVO.setLastUpdateUserId(userDO.getLastUpdateUserId());
-        userVO.setLastUpdateTime(userDO.getLastUpdateTime());
-        return userVO;
+    private UserPageVO toUserPageVo(UserDO userDO) {
+        UserPageVO userPageVO = new UserPageVO();
+        userPageVO.setUserId(userDO.getUserId());
+        userPageVO.setName(userDO.getName());
+        userPageVO.setEmail(userDO.getEmail());
+        userPageVO.setAvatar(userDO.getAvatar());
+        return userPageVO;
     }
 
     /**

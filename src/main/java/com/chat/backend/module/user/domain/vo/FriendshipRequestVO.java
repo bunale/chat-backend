@@ -16,7 +16,9 @@ public class FriendshipRequestVO {
     private Long id;
 
     private String initiator;
+
     private String initiatorUsername;
+
     private String initiatorAvatar;
 
     private String receiver;

@@ -2,6 +2,7 @@ package com.chat.backend.module.message.domain.param;
 
 import com.chat.backend.common.PageParam;
 import com.chat.backend.common.UserContext;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,6 +23,7 @@ public class GetConversationParam extends PageParam {
     /**
      * 当前用户
      */
+    @Hidden
     private UserContext currentUser;
 
 }

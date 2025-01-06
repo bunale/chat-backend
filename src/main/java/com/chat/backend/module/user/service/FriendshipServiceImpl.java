@@ -39,7 +39,7 @@ public class FriendshipServiceImpl extends ServiceImpl<FriendshipMapper, Friends
      */
     @Override
     public Page<UserVO> getMyFriendList(GetMyFriendListParam param) {
-        com.github.pagehelper.Page<Object> page = PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        com.github.pagehelper.Page<UserVO> page = PageHelper.startPage(param.getPageNum(), param.getPageSize());
         List<UserVO> friends = mapper.getFriendList(param.getUsername(), param.getCurrentUser().getUserId());
         return PageUtils.of(page, friends);
     }

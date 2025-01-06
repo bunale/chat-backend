@@ -5,6 +5,8 @@ import com.chat.backend.module.message.domain.param.GetConversationParam;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.service.IService;
 
+import java.util.List;
+
 /**
  * 会话表 服务层。
  *
@@ -20,5 +22,5 @@ public interface ConversationManager extends IService<ConversationDO> {
      * @return {@link Page }<{@link ConversationDO }>
      * @author bunale
      */
-    Page<ConversationDO> getConversationPage(GetConversationParam pageParam);
+    List<ConversationDO> getConversationPage(GetConversationParam pageParam);
 }

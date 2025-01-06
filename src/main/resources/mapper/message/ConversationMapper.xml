@@ -11,7 +11,7 @@
         where t1.conversation_id in (
                 select distinct t2.conversation_id
                 from chat_conversation_participant t2
-                where t2.user_id = #{userId}
+                where t2.user_id = #{currentUser.userId}
             )
         order by t1.last_message_time desc
     </select>

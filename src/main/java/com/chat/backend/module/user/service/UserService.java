@@ -2,7 +2,7 @@ package com.chat.backend.module.user.service;
 
 import com.chat.backend.module.user.domain.entity.UserDO;
 import com.chat.backend.module.user.domain.param.QueryUserDataParam;
-import com.chat.backend.module.user.domain.vo.UserVO;
+import com.chat.backend.module.user.domain.vo.UserPageVO;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.service.IService;
 
@@ -39,7 +39,7 @@ public interface UserService extends IService<UserDO> {
      * @param param 查询参数
      * @return {@link Page }<{@link UserDO }>
      */
-    Page<UserVO> page(QueryUserDataParam param);
+    Page<UserPageVO> page(QueryUserDataParam param);
 
     /**
      * 根据用户id批量查询用户信息

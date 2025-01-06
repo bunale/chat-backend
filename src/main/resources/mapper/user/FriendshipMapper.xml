@@ -6,7 +6,7 @@
 
     <select id="getFriendList" resultType="com.chat.backend.module.user.domain.vo.UserVO">
         select t1.user_id userId,
-               t1.name    username,
+               t1.name,
                t1.email,
                t1.avatar
         from chat_user t1

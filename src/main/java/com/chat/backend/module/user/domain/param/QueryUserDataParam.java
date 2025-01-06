@@ -1,6 +1,7 @@
 package com.chat.backend.module.user.domain.param;
 
 import com.chat.backend.common.PageParam;
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -16,4 +17,6 @@ public class QueryUserDataParam extends PageParam {
     @Schema(description = "用户名")
     private String username;
 
+    @Hidden
+    private String userId;
 }

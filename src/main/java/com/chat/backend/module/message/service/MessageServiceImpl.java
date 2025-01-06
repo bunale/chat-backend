@@ -3,6 +3,7 @@ package com.chat.backend.module.message.service;
 import cn.hutool.core.collection.CollUtil;
 import com.chat.backend.common.UserContext;
 import com.chat.backend.module.message.domain.entity.ConversationDO;
+import com.chat.backend.module.message.domain.entity.ConversationParticipantDO;
 import com.chat.backend.module.message.domain.entity.MessageDO;
 import com.chat.backend.module.message.domain.param.AddConversationParam;
 import com.chat.backend.module.message.domain.param.GetConversationParam;
@@ -17,6 +18,7 @@ import com.chat.backend.module.message.manager.MessageManager;
 import com.chat.backend.module.user.domain.entity.UserDO;
 import com.chat.backend.module.user.service.UserService;
 import com.chat.backend.util.PageUtils;
+import com.github.pagehelper.PageHelper;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import lombok.RequiredArgsConstructor;
@@ -71,8 +73,9 @@ public class MessageServiceImpl implements MessageService {
      */
     @Override
     public Page<ConversationVO> getConversationPage(GetConversationParam pageParam) {
-        Page<ConversationDO> page = conversationManager.getConversationPage(pageParam);
-        List<ConversationVO> vos = page.getRecords().stream().map(this::toConversationVo).toList();
+        com.github.pagehelper.Page<Object> page = PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize());
+        List<ConversationDO> list = conversationManager.getConversationPage(pageParam);
+        List<ConversationVO> vos = list.stream().map(this::toConversationVo).toList();
         return PageUtils.of(page, vos);
     }
 
@@ -108,6 +111,21 @@ public class MessageServiceImpl implements MessageService {
         conversationDO.setCreatedTime(LocalDateTime.now());
         conversationDO.setCreatedUserId(currentUser.getUserId());
         conversationManager.save(conversationDO);
+
+        List<ConversationParticipantDO> participants = users.stream().map(user -> {
+            ConversationParticipantDO conversationParticipantDO = new ConversationParticipantDO();
+            conversationParticipantDO.setConversationId(conversationDO.getConversationId());
+            conversationParticipantDO.setUserId(user.getUserId());
+            if (user.getUserId().equals(currentUser.getUserId())) {
+                conversationParticipantDO.setConversationRole("2");
+            } else {
+                conversationParticipantDO.setConversationRole("3");
+            }
+            conversationParticipantDO.setJoinedAt(LocalDateTime.now());
+            return conversationParticipantDO;
+        }).toList();
+        conversationParticipantManager.saveBatch(participants);
+
         return toConversationVo(conversationDO);
     }
 

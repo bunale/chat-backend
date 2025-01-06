@@ -44,7 +44,7 @@ public class ConversationController {
         return R.ok(vo);
     }
 
-    @Operation(summary = "根据用户会话列表")
+    @Operation(summary = "分页查询用户会话列表")
     @GetMapping("/page")
     public R<Page<ConversationVO>> page(GetConversationParam pageParam) {
         Page<ConversationVO> page = messageService.getConversationPage(pageParam);
