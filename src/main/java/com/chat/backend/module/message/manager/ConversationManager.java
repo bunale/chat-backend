@@ -23,4 +23,13 @@ public interface ConversationManager extends IService<ConversationDO> {
      * @author bunale
      */
     List<ConversationDO> getConversationPage(GetConversationParam pageParam);
+
+    /**
+     * 根据用户id和会话key获取会话
+     *
+     * @param userIdKey userIdKey
+     * @return {@link ConversationDO }
+     * @author bunale
+     */
+    ConversationDO getByUserIdKey(String userIdKey);
 }

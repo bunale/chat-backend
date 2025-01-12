@@ -1,6 +1,5 @@
 package com.chat.backend.module.message.domain.param;
 
-import com.chat.backend.common.PageParam;
 import com.chat.backend.common.UserContext;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,7 +13,7 @@ import lombok.Data;
  * @since 2024/12/4
  */
 @Data
-public class SendMessageParam extends PageParam {
+public class SendMessageParam {
 
     @NotNull
     @Schema(description = "会话id")

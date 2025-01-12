@@ -4,4 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chat.backend.module.message.mapper.ConversationParticipantMapper">
 
+    <select id="getConversationParticipant"
+            resultType="com.chat.backend.module.message.domain.vo.ConversationUserVO">
+        select
+            t3.user_id userId,
+            t3."name" username,
+            t3.avatar,
+            case
+                when t1.created_user_id = t2.user_id then 1
+                else 0
+            end as creatorFlag
+        from chat_conversation t1
+                 join chat_conversation_participant t2 on t2.conversation_id = t1.conversation_id
+                 join chat_user t3 on t3.user_id = t2.user_id
+        where t1.conversation_id = #{conversationId}
+    </select>
 </mapper>

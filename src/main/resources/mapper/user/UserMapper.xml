@@ -24,7 +24,7 @@
         from chat_user t1
         <where>
             <if test="username!= null and username!= ''">
-                and t1.username like #{username}
+                and t1.name like concat('%', #{username}, '%')
             </if>
         </where>
         order by t1.id desc

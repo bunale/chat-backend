@@ -5,6 +5,7 @@ import com.chat.backend.module.message.domain.param.GetConversationParam;
 import com.chat.backend.module.message.manager.ConversationManager;
 import com.chat.backend.module.message.mapper.ConversationMapper;
 import com.mybatisflex.core.paginate.Page;
+import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,21 @@ import java.util.List;
  */
 @Service
 public class ConversationManagerImpl extends ServiceImpl<ConversationMapper, ConversationDO> implements ConversationManager {
+
+    /**
+     * 根据用户id和会话key获取会话
+     *
+     * @param userIdKey userIdKey
+     * @return {@link ConversationDO }
+     * @author bunale
+     */
+    @Override
+    public ConversationDO getByUserIdKey(String userIdKey) {
+        return mapper.selectOneByQuery(
+                QueryWrapper.create()
+                        .eq(ConversationDO::getUserIdKey, userIdKey)
+        );
+    }
 
     /**
      * 分页查询指定用户的会话列表

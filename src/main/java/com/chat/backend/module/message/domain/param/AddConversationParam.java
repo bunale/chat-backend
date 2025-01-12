@@ -3,7 +3,6 @@ package com.chat.backend.module.message.domain.param;
 import com.chat.backend.common.UserContext;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.List;
@@ -16,10 +15,6 @@ import java.util.List;
  */
 @Data
 public class AddConversationParam {
-
-    @NotNull
-    @Schema(description = "会话类型，1：一对一，2：多人聊天")
-    private Integer conversationType;
 
     @NotEmpty
     @Schema(description = "邀请参与会话的用户ID")
