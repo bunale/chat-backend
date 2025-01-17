@@ -22,5 +22,4 @@ public class ChatBackendApplication {
         SpringApplication.run(ChatBackendApplication.class, args);
     }
 
-
 }

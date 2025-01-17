@@ -31,7 +31,7 @@ jasypt:
       suffix: )
 
 jwt:
-  secret: ENC(xCWHJgtTx1iPz4QD4U2z8E9OqHeO32tPUodkjpahGKngNU1rFRcnrvWkZBM5RdZW6SGRoIqpZT0=)
+  secret: b1627fc9cb6e47d2abd5841836de96ea
   expiration: 3600000
 
 dromara:
